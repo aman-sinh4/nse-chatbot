@@ -14,7 +14,7 @@ try {
         const rawData = fs.readFileSync(filePath, 'utf8');
         const json = JSON.parse(rawData);
         knowledgeContext = json.map((item: any) => `Source: ${item.url}\n${item.content}\n---\n`).join('\n');
-        console.log(`Knowledge Base Loaded: ${json.length} documents.`);
+        console.log(`Knowledge Base Loaded: ${json.length} documents. Total size: ${knowledgeContext.length} chars.`);
     } else {
         console.error('CRITICAL: knowledge.json NOT FOUND at', filePath);
         knowledgeContext = "Warning: Knowledge base is empty. System could not load data.";
@@ -50,9 +50,9 @@ export async function POST(req: Request) {
     `;
 
         // Switch to Raw Fetch to bypass SDK 404 issues
-        console.log('Sending RAW FETCH request to Gemini 1.5 Flash...');
+        console.log('Sending RAW FETCH request to Gemini Flash Latest...');
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
